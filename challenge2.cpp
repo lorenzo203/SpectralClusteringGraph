@@ -101,11 +101,6 @@ int main(){
     cout << "Task 4: Eigenvector associated with the smallest non-zero eigenvalue: (" << correspondingEigenvector.transpose() << ")^T" << endl;
     //cout<<eigensolver.eigenvalues()<<endl;
 
-    //Apply the previous technique to a larger graph for which a clustering strategy is not obvious.
-    //Using Eigen, load the adjacency matrix As stored in the file social.mtx corresponding
-    //to a network of 351 Facebook friends. The (i; j)-th element is equal to 1 if the i-th and
-    //j-th friends are also friends with each other and is equal to 0 otherwise. Report the
-    //Frobenius norm of the matrix As
     SparseMatrix<int> As;
     // Load the matrix from the file
     string filename = "social.mtx";
