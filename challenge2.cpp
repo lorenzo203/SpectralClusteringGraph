@@ -2,6 +2,7 @@
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<unsupported/Eigen/SparseExtra>
+#include"lis.h"
 #include<string>
 #include<fstream>
 
@@ -50,9 +51,9 @@ int main(){
     //Define the Laplacian matrix Lg
     MatrixXi Lg = Dg - Ag;
     //Build the vector x
-    VectorXi x = VectorXi::Ones(9);
+    VectorXi x_eigen = VectorXi::Ones(9);
     //Compute y 
-    VectorXi y = Lg * x;
+    VectorXi y = Lg * x_eigen;
     cout << "----------------------------------------------" << endl;
     cout << "Task 2: Euclidean norm of y: ||y||_2 = " << y.norm() << endl;
     //check simmetry of Lg
@@ -136,7 +137,81 @@ int main(){
     } else {
         cout << "Error! Matrix Ls could not have been saved properly!";
     }
-    //saveMarket(Ls, "Outputs/Ls.mtx");
+    //Initialize LIS to use the power method (appropriate eigensolver)
+    int argc = 0;
+    char** argv = NULL;
+    lis_initialize(&argc, &argv);
 
+    LIS_MATRIX A;
+    LIS_VECTOR x;
+    LIS_REAL evalue;
+    LIS_INT n, nnz;
+    
+    //cout << "Debug: Creating LIS matrix..." << endl;
+    lis_matrix_create(LIS_COMM_WORLD, &A);
+    
+    //cout << "Debug: Loading matrix from file..." << endl;
+    int ierr = lis_input_matrix(A, (char*)"./lis-2.1.10/test/Ls.mtx");
+    if(ierr) {
+        cerr << "Error: Failed to load matrix Ls.mtx, error code: " << ierr << endl;
+        lis_matrix_destroy(A);
+        lis_finalize();
+        return ierr;
+    }
+    
+    //cout << "Debug: Assembling matrix..." << endl;
+    lis_matrix_assemble(A);
+    
+    // Get matrix size
+    lis_matrix_get_size(A, &n, &nnz);
+    //cout << "Debug: Matrix size: " << n << "x" << n << ", nnz: " << nnz << endl;
+    
+    // Create vector AFTER matrix is assembled
+    //cout << "Debug: Creating vector..." << endl;
+    lis_vector_create(LIS_COMM_WORLD, &x);
+    lis_vector_set_size(x, 0, n);
+    
+    // Set initial guess (random or ones)
+    for(int i = 0; i < n; i++) {
+        lis_vector_set_value(LIS_INS_VALUE, i, 1.0, x);
+    }
+    
+    //create eigensolver
+    //cout << "Debug: Creating eigensolver..." << endl;
+    LIS_ESOLVER esolver;
+    lis_esolver_create(&esolver);
+
+    //define solver options (power method)
+    lis_esolver_set_option((char*)"-e pi -etol 1.e-8 -emaxiter 5000", esolver);
+    
+    //cout << "Debug: Solving eigenvalue problem..." << endl;
+    //solve eigenvalue problem
+    ierr = lis_esolve(A, x, &evalue, esolver);
+    if(ierr){
+        cerr << "Error solving eigenvalue problem, error code: " << ierr << endl;
+        lis_esolver_destroy(esolver);
+        lis_matrix_destroy(A);
+        lis_vector_destroy(x);
+        lis_finalize();
+        return ierr;
+    }
+    
+    //cout << "Debug: Getting iteration count..." << endl;
+    //get the number of iterations
+    LIS_INT num_iters = 0;
+    lis_esolver_get_iter(esolver, &num_iters);
+    
+    //Print the largest eigenvalue
+    cout << "Task 7: Largest eigenvalue of the matrix Ls: " << evalue 
+         << ", number of iterations: " << num_iters << endl;
+    
+    //clean up lis environment
+    lis_esolver_destroy(esolver);
+    lis_matrix_destroy(A);
+    lis_vector_destroy(x);
+    
+    //finalize lis
+    lis_finalize();
+    
     return 0; 
 }
