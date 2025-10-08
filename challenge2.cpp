@@ -130,7 +130,12 @@ int main(){
     //Add perturbation to the first diagonal entry of the laplacian Lg
     MatrixXd LsDouble = Ls.cast<double>(); //the matrix Ls initially is int
     LsDouble(0,0) = LsDouble(0,0) + 0.2;
-    saveMarket(LsDouble, "./lis-2.1.10/test/Ls_double.mtx");
+    cout << "----------------------------------------------" << endl;
+    if(saveMarket(LsDouble, "./lis-2.1.10/test/Ls.mtx")){
+        cout << "Task 7: Matrix Ls with perturbation saved into /lis-2.1.10/test/Ls.mtx" << endl;
+    } else {
+        cout << "Error! Matrix Ls could not have been saved properly!";
+    }
     //saveMarket(Ls, "Outputs/Ls.mtx");
 
     return 0; 
