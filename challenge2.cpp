@@ -59,7 +59,7 @@ int main(){
     bool LgSymmetric = false;
     if(Lg==Lg.transpose()){
         LgSymmetric = true;
-    }
+    } 
     //check positive definiteness of Lg
     MatrixXd LgDouble = Lg.cast<double>();
     LLT<MatrixXd> lltOfLg(LgDouble);
@@ -126,5 +126,12 @@ int main(){
         cout << "Task 6: Is the matrix Ls symmetric? NO" << endl;
     }
     cout << "Task 6: Number of non-zero entries in Ls: " << Ls.nonZeros() << endl;
+    
+    //Add perturbation to the first diagonal entry of the laplacian Lg
+    MatrixXd LsDouble = Ls.cast<double>(); //the matrix Ls initially is int
+    LsDouble(0,0) = LsDouble(0,0) + 0.2;
+    saveMarket(LsDouble, "./lis-2.1.10/test/Ls_double.mtx");
+    //saveMarket(Ls, "Outputs/Ls.mtx");
+
     return 0; 
 }
