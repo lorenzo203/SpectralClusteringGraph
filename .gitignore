@@ -1,0 +1,64 @@
+# ----- Compiled object files -----
+*.o
+*.obj
+*.lo
+
+# ----- Static / dynamic libs and executables -----
+*.a
+*.so
+*.dylib
+*.lib
+*.exe
+*.out
+
+# Common executable/binary names produced by this project
+challenge2
+challenge2.o
+
+# ----- Build directories -----
+/build/
+/bin/
+/lib/
+/install/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+
+# ----- LIS library build outputs (local tree) -----
+/lis-2.1.10/install/
+/lis-2.1.10/bin/
+/lis-2.1.10/lib/
+
+# Ignore test output matrices (if generated)
+/Outputs/
+/lis-2.1.10/test/*.mtx
+**/test/*.mtx
+
+# ----- Editor/IDE files -----
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Swap / backup files
+*~
+*.swp
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs and runtime files
+*.log
+*.pid
+
+# Coverage / profiling
+coverage/
+*.gcda
+*.gcno
+
+# Misc
+*.user
+*.suo
