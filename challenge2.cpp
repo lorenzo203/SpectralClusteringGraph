@@ -137,6 +137,8 @@ int main(){
     } else {
         cout << "Error! Matrix Ls could not have been saved properly!";
     }
+    
+    
     //Initialize LIS to use the power method (appropriate eigensolver)
     int argc = 0;
     char** argv = NULL;
@@ -205,11 +207,33 @@ int main(){
     cout << "Task 7: Largest eigenvalue of the matrix Ls: " << evalue 
          << ", number of iterations: " << num_iters << endl;
     
-    //clean up lis environment
+    //clean up lis (destroy the solver, but not the matrices)
     lis_esolver_destroy(esolver);
+    //define another LIS_SOLVER
+    LIS_ESOLVER esolver_shifted;
+    lis_esolver_create(&esolver_shifted);
+    lis_esolver_set_option((char*)"-e pi -etol 1.e-8 -emaxiter 5000 -shift 28.6", esolver_shifted);
+    LIS_REAL evalue_shifted;
+    lis_esolve(A,x, &evalue_shifted, esolver_shifted);
+    ierr = lis_esolve(A, x, &evalue_shifted, esolver_shifted);
+    if(ierr){
+        cerr << "Error solving eigenvalue problem, error code: " << ierr << endl;
+        lis_esolver_destroy(esolver);
+        lis_matrix_destroy(A);
+        lis_vector_destroy(x);
+        lis_finalize();
+        return ierr;
+    }
+    cout << "----------------------------------------------" << endl;
+    LIS_INT num_iters_shifted = 0;
+    lis_esolver_get_iter(esolver_shifted, &num_iters_shifted);
+    cout << "Task 8: shift mi = 29.8\n" << 
+            "Task 8: number of iterations to reach 1.e-8 accuracy: "<< num_iters_shifted << "\n" <<
+            "Task 8: largest eigenvalue result using a shift mi = 28.6: " << evalue_shifted << endl;
+    
+            //create a new esolver to use the shift
     lis_matrix_destroy(A);
     lis_vector_destroy(x);
-    
     //finalize lis
     lis_finalize();
     
