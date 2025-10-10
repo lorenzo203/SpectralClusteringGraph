@@ -227,7 +227,7 @@ int main(){
     cout << "----------------------------------------------" << endl;
     LIS_INT num_iters_shifted = 0;
     lis_esolver_get_iter(esolver_shifted, &num_iters_shifted);
-    cout << "Task 8: shift mi = 29.8\n" << 
+    cout << "Task 8: shift mi = 28.6\n" << 
             "Task 8: number of iterations to reach 1.e-8 accuracy: "<< num_iters_shifted << "\n" <<
             "Task 8: largest eigenvalue result using a shift mi = 28.6: " << evalue_shifted << endl;
     

@@ -41,4 +41,8 @@ Task 7: Matrix Ls with perturbation saved into /lis-2.1.10/test/Ls.mtx
 matrix size = 351 x 351 (123201 nonzero entries)
 
 Task 7: Largest eigenvalue of the matrix Ls: 60.1337, number of iterations: 2007
+----------------------------------------------
+Task 8: shift mi = 28.6
+Task 8: number of iterations to reach 1.e-8 accuracy: 1094
+Task 8: largest eigenvalue result using a shift mi = 28.6: 60.1337
 ```
