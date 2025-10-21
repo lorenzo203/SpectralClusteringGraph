@@ -2,7 +2,6 @@
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<unsupported/Eigen/SparseExtra>
-#include"lis.h"
 #include<string>
 #include<fstream>
 
@@ -119,6 +118,7 @@ int main(){
     MatrixXi Ds = vs.asDiagonal();
     
     MatrixXi Ls = Ds - As;
+    SparseMatrix<int> LsSparse = Ls.sparseView();
     
     cout<<"----------------------------------------------"<<endl;
     if(Ls==Ls.transpose()){
@@ -126,7 +126,7 @@ int main(){
     }else{
         cout << "Task 6: Is the matrix Ls symmetric? NO" << endl;
     }
-    cout << "Task 6: Number of non-zero entries in Ls: " << Ls.nonZeros() << endl;
+    cout << "Task 6: Number of non-zero entries in Ls: " << LsSparse.nonZeros() << endl;
     
     //Add perturbation to the first diagonal entry of the laplacian Lg
     MatrixXd LsDouble = Ls.cast<double>(); //the matrix Ls initially is int
@@ -138,104 +138,23 @@ int main(){
         cout << "Error! Matrix Ls could not have been saved properly!";
     }
     
+    //find the fiedlers vector by first building the matrix containing the 2 eigenvectors 
+    //associated to the 2 smallest eigvals (we need the secodn)
     
-    //Initialize LIS to use the power method (appropriate eigensolver)
-    int argc = 0;
-    char** argv = NULL;
-    lis_initialize(&argc, &argv);
+    SparseMatrix<double> E_s;
+    VectorXd FiedlerVec;
+    if(!loadMarket(E_s,"lis-2.1.10/test/evectors9.mtx")){
+        cerr<<"failed to upload the eigenvector in Eigen"<<endl;
+        return 1;
+    };
+    MatrixXd E = MatrixXd(E_s);
+    FiedlerVec = E.col(1);
+    cout<<"----------------------------------------------"<<endl;
+    //find the number of positive and negative values of the vector
+    double tol_sign = 1e-12; //tolerance (is it okay?)
+    auto np = (FiedlerVec.array() >  tol_sign).count();
+    auto nn = (FiedlerVec.array() < -tol_sign).count();
+    cout << "Task 10: np = " << np << ", nn = " << nn << ", n0 = " << (FiedlerVec.size() - np - nn) << endl;
 
-    LIS_MATRIX A;
-    LIS_VECTOR x;
-    LIS_REAL evalue;
-    LIS_INT n, nnz;
-    
-    //cout << "Debug: Creating LIS matrix..." << endl;
-    lis_matrix_create(LIS_COMM_WORLD, &A);
-    
-    //cout << "Debug: Loading matrix from file..." << endl;
-    int ierr = lis_input_matrix(A, (char*)"./lis-2.1.10/test/Ls.mtx");
-    if(ierr) {
-        cerr << "Error: Failed to load matrix Ls.mtx, error code: " << ierr << endl;
-        lis_matrix_destroy(A);
-        lis_finalize();
-        return ierr;
-    }
-    
-    //cout << "Debug: Assembling matrix..." << endl;
-    lis_matrix_assemble(A);
-    
-    // Get matrix size
-    lis_matrix_get_size(A, &n, &nnz);
-    //cout << "Debug: Matrix size: " << n << "x" << n << ", nnz: " << nnz << endl;
-    
-    // Create vector AFTER matrix is assembled
-    //cout << "Debug: Creating vector..." << endl;
-    lis_vector_create(LIS_COMM_WORLD, &x);
-    lis_vector_set_size(x, 0, n);
-    
-    // Set initial guess (random or ones)
-    for(int i = 0; i < n; i++) {
-        lis_vector_set_value(LIS_INS_VALUE, i, 1.0, x);
-    }
-    
-    //create eigensolver
-    //cout << "Debug: Creating eigensolver..." << endl;
-    LIS_ESOLVER esolver;
-    lis_esolver_create(&esolver);
-
-    //define solver options (power method)
-    lis_esolver_set_option((char*)"-e pi -etol 1.e-8 -emaxiter 5000", esolver);
-    
-    //cout << "Debug: Solving eigenvalue problem..." << endl;
-    //solve eigenvalue problem
-    ierr = lis_esolve(A, x, &evalue, esolver);
-    if(ierr){
-        cerr << "Error solving eigenvalue problem, error code: " << ierr << endl;
-        lis_esolver_destroy(esolver);
-        lis_matrix_destroy(A);
-        lis_vector_destroy(x);
-        lis_finalize();
-        return ierr;
-    }
-    
-    //cout << "Debug: Getting iteration count..." << endl;
-    //get the number of iterations
-    LIS_INT num_iters = 0;
-    lis_esolver_get_iter(esolver, &num_iters);
-    
-    //Print the largest eigenvalue
-    cout << "Task 7: Largest eigenvalue of the matrix Ls: " << evalue 
-         << ", number of iterations: " << num_iters << endl;
-    
-    //clean up lis (destroy the solver, but not the matrices)
-    lis_esolver_destroy(esolver);
-    //define another LIS_SOLVER
-    LIS_ESOLVER esolver_shifted;
-    lis_esolver_create(&esolver_shifted);
-    lis_esolver_set_option((char*)"-e pi -etol 1.e-8 -emaxiter 5000 -shift 28.6", esolver_shifted);
-    LIS_REAL evalue_shifted;
-    lis_esolve(A,x, &evalue_shifted, esolver_shifted);
-    ierr = lis_esolve(A, x, &evalue_shifted, esolver_shifted);
-    if(ierr){
-        cerr << "Error solving eigenvalue problem, error code: " << ierr << endl;
-        lis_esolver_destroy(esolver);
-        lis_matrix_destroy(A);
-        lis_vector_destroy(x);
-        lis_finalize();
-        return ierr;
-    }
-    cout << "----------------------------------------------" << endl;
-    LIS_INT num_iters_shifted = 0;
-    lis_esolver_get_iter(esolver_shifted, &num_iters_shifted);
-    cout << "Task 8: shift mi = 28.6\n" << 
-            "Task 8: number of iterations to reach 1.e-8 accuracy: "<< num_iters_shifted << "\n" <<
-            "Task 8: largest eigenvalue result using a shift mi = 28.6: " << evalue_shifted << endl;
-    
-            //create a new esolver to use the shift
-    lis_matrix_destroy(A);
-    lis_vector_destroy(x);
-    //finalize lis
-    lis_finalize();
-    
     return 0; 
 }

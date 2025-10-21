@@ -8,9 +8,7 @@ CXX := g++
 # Default Eigen include path; can be overridden on the make command line or via environment
 mkEigenInc ?= /usr/include/eigen3
 
-CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -I$(mkEigenInc) -I../lis-2.1.10/include
-LDFLAGS := -L../lis-2.1.10/src/.libs
-LDLIBS := -llis -lm
+CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -I$(mkEigenInc) 
 
 SRC := challenge2.cpp
 OBJ := $(SRC:.cpp=.o)
