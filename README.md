@@ -35,14 +35,9 @@ Task 4: Eigenvector associated with the smallest non-zero eigenvalue: ( 0.455542
 Task 5: Frobenius norm of As: ||As||_F = 93
 ----------------------------------------------
 Task 6: Is the matrix Ls symmetric? YES
-Task 6: Number of non-zero entries in Ls: 123201
+Task 6: Number of non-zero entries in Ls: 9153
 ----------------------------------------------
 Task 7: Matrix Ls with perturbation saved into /lis-2.1.10/test/Ls.mtx
-matrix size = 351 x 351 (123201 nonzero entries)
-
-Task 7: Largest eigenvalue of the matrix Ls: 60.1337, number of iterations: 2007
 ----------------------------------------------
-Task 8: shift mi = 28.6
-Task 8: number of iterations to reach 1.e-8 accuracy: 1094
-Task 8: largest eigenvalue result using a shift mi = 28.6: 60.1337
+Task 10: np = 52, nn = 299, n0 = 0
 ```
