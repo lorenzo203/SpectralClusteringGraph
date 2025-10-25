@@ -76,21 +76,21 @@ am__libsaamg_la_SOURCES_DIST = lis_s_data_structure_for_AMG.F90 \
 	lis_m_solver_Gnumbering.F90 lis_m_aggregate_mod.F90 \
 	lis_m_data_creation_AMGCG.F90 lis_m_solver_AMGCG.F90 \
 	lis_m_finit.F90
-#am_libsaamg_la_OBJECTS =  \
-#	lis_s_data_structure_for_AMG.lo \
-#	lis_s_isort.lo lis_s_queue_mod.lo \
-#	lis_s_aggregate_mod.lo \
-#	lis_s_data_creation_AMGCG.lo \
-#	lis_s_solver_AMGCG.lo lis_s_finit.lo
 am_libsaamg_la_OBJECTS =  \
-	lis_m_data_structure_for_AMG.lo \
-	lis_m_isort.lo lis_m_queue_mod.lo \
-	lis_m_hash_mod.lo lis_m_count_time_mod.lo \
-	lis_m_solver_SR2.lo \
-	lis_m_solver_Gnumbering.lo \
-	lis_m_aggregate_mod.lo \
-	lis_m_data_creation_AMGCG.lo \
-	lis_m_solver_AMGCG.lo lis_m_finit.lo
+	lis_s_data_structure_for_AMG.lo \
+	lis_s_isort.lo lis_s_queue_mod.lo \
+	lis_s_aggregate_mod.lo \
+	lis_s_data_creation_AMGCG.lo \
+	lis_s_solver_AMGCG.lo lis_s_finit.lo
+#am_libsaamg_la_OBJECTS =  \
+#	lis_m_data_structure_for_AMG.lo \
+#	lis_m_isort.lo lis_m_queue_mod.lo \
+#	lis_m_hash_mod.lo lis_m_count_time_mod.lo \
+#	lis_m_solver_SR2.lo \
+#	lis_m_solver_Gnumbering.lo \
+#	lis_m_aggregate_mod.lo \
+#	lis_m_data_creation_AMGCG.lo \
+#	lis_m_solver_AMGCG.lo lis_m_finit.lo
 libsaamg_la_OBJECTS = $(am_libsaamg_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)/include
 SOURCES = $(libsaamg_la_SOURCES)
@@ -110,11 +110,11 @@ AR = ar
 AUTOCONF = ${SHELL} /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10/config/missing --run autoconf
 AUTOHEADER = ${SHELL} /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10/config/missing --run autoheader
 AUTOMAKE = ${SHELL} /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10/config/missing --run automake-1.11
-AWK = mawk
-CC = mpicc
+AWK = gawk
+CC = /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/gcc
 CCDEPMODE = depmode=none
-CFLAGS = -O3 -fomit-frame-pointer  -DUSE_MPI
-CLIBS =  -L/usr/lib/x86_64-linux-gnu/openmpi/lib -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. -lmpi -lgcc_s
+CFLAGS = -O3 -fomit-frame-pointer 
+CLIBS =  -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib/gcc/x86_64-mk-linux/11.2.0 -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib/gcc/x86_64-mk-linux/11.2.0/../../../../x86_64-mk-linux/lib/../lib -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib/gcc/x86_64-mk-linux/11.2.0/../../../../lib -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib/gcc/x86_64-mk-linux/11.2.0/../../../../x86_64-mk-linux/lib -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib/gcc/x86_64-mk-linux/11.2.0/../../.. -L/u/sw/toolchains/gcc-glibc/11.2.0/prefix/lib -L/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -lgcc_s
 CPPFLAGS = 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -125,22 +125,22 @@ DUMPBIN =
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /usr/bin/grep -E
+EGREP = /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/grep -E
 EXEEXT = 
 F77 = 
-FC = 
-FCFLAGS =  -DUSE_MPI
+FC = /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/gfortran
+FCFLAGS = 
 FCLDFLAGS = 
-FFLAGS =  -DUSE_MPI
-FGREP = /usr/bin/grep -F
+FFLAGS = 
+FGREP = /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/grep -F
 FLIBS = 
-GREP = /usr/bin/grep
+GREP = /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LD = /usr/bin/ld
+LD = /u/sw/toolchains/gcc-glibc/11.2.0/prefix/x86_64-mk-linux/bin/ld
 LDFLAGS = 
 LIBOBJS = 
 LIBS = -lm 
@@ -155,12 +155,12 @@ MAKEINFO = ${SHELL} /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10/con
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
 MPFLAG = 
-MPICC = mpicc
+MPICC = 
 MPIF77 = 
 MPIFC = 
-MPINP = -np
-MPIRUN = mpirun
-NM = /usr/bin/nm -B
+MPINP = 
+MPIRUN = 
+NM = /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
 OBJEXT = o
@@ -176,7 +176,7 @@ PACKAGE_URL =
 PACKAGE_VERSION = 2.1.10
 PATH_SEPARATOR = :
 RANLIB = ranlib
-SED = /usr/bin/sed
+SED = /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 SIZEOF_VOID_P = 8
@@ -188,7 +188,7 @@ abs_srcdir = /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10/src/fortra
 abs_top_builddir = /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10
 abs_top_srcdir = /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10
 ac_ct_AR = ar
-ac_ct_CC = cc
+ac_ct_CC = 
 ac_ct_DUMPBIN = 
 ac_ct_F77 = 
 ac_ct_FC = 
@@ -212,7 +212,7 @@ enable_complex = no
 enable_f90 = no
 enable_fortran = no
 enable_longdouble = no
-enable_mpi = yes
+enable_mpi = no
 enable_omp = no
 enable_quad = no
 enable_saamg = no
@@ -234,7 +234,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /usr/bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /Desktop/Comp_Env/NLA/SpectralClusteringGraph/lis-2.1.10
 program_transform_name = s,x,x,
 psdir = ${docdir}
 runstatedir = ${localstatedir}/run
@@ -252,25 +252,25 @@ top_builddir = ../../..
 top_srcdir = ../../..
 EXTRA_DIST = precision.inc
 noinst_LTLIBRARIES = libsaamg.la
-#libsaamg_la_SOURCES = lis_s_data_structure_for_AMG.F90 \
-#  lis_s_isort.F90 \
-#  lis_s_queue_mod.F90 \
-#  lis_s_aggregate_mod.F90 \
-#  lis_s_data_creation_AMGCG.F90 \
-#  lis_s_solver_AMGCG.F90 \
-#  lis_s_finit.F90
+libsaamg_la_SOURCES = lis_s_data_structure_for_AMG.F90 \
+  lis_s_isort.F90 \
+  lis_s_queue_mod.F90 \
+  lis_s_aggregate_mod.F90 \
+  lis_s_data_creation_AMGCG.F90 \
+  lis_s_solver_AMGCG.F90 \
+  lis_s_finit.F90
 
-libsaamg_la_SOURCES = lis_m_data_structure_for_AMG.F90 \
-  lis_m_isort.F90 \
-  lis_m_queue_mod.F90 \
-  lis_m_hash_mod.F90 \
-  lis_m_count_time_mod.F90 \
-  lis_m_solver_SR2.F90 \
-  lis_m_solver_Gnumbering.F90 \
-  lis_m_aggregate_mod.F90 \
-  lis_m_data_creation_AMGCG.F90 \
-  lis_m_solver_AMGCG.F90 \
-  lis_m_finit.F90
+#libsaamg_la_SOURCES = lis_m_data_structure_for_AMG.F90 \
+#  lis_m_isort.F90 \
+#  lis_m_queue_mod.F90 \
+#  lis_m_hash_mod.F90 \
+#  lis_m_count_time_mod.F90 \
+#  lis_m_solver_SR2.F90 \
+#  lis_m_solver_Gnumbering.F90 \
+#  lis_m_aggregate_mod.F90 \
+#  lis_m_data_creation_AMGCG.F90 \
+#  lis_m_solver_AMGCG.F90 \
+#  lis_m_finit.F90
 
 CLEANFILES = *.mod
 AM_CPPFLAGS = -I$(top_srcdir)/include
