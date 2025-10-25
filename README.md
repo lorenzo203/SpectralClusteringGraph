@@ -3,8 +3,7 @@
   - Included in `../lis-2.1.10/` directory 
   - **Built automatically** by the Makefile when you run `make all`
   - No manual installation required - the Makefile handles configuration and compilation
-  - Used for computing the largest eigenvalue via the Power Iteration method
-
+  - Used for the tasks 7, 8 and 9
 ## Compilation
 To compile the file just execute 
 ```bash
