@@ -101,7 +101,8 @@ int main(){
     
     out << "Non-zeros in off-diagonal blocks for A_ord: " << nnz_A12_ord << "\n";
     out << "Non-zeros in off-diagonal blocks for A_ord: " << nnz_A12_s << "\n";
-    //out << "As nnz: " << A_s.nonZeros() << "\n";
+    
     report.close();
+    
     return 0;
 }
