@@ -45,8 +45,9 @@ int main(){
         cerr << "Warning: unable to open report file, using stdout.\n";
     }
     //Frobenius norm of Ag
+    MatrixXd Ag_double = Ag.cast<double>(); 
     out << "----------------------------------------------" << "\n";
-    out << "Task 1: Frobenius norm of Ag: ||Ag||_F = " << Ag.norm() << "\n";
+    out << "Task 1: Frobenius norm of Ag: ||Ag||_F = " << Ag_double.norm() << "\n";
     //Define the vector vg
     VectorXi vg = VectorXi::Zero(9);
     //Sum of each row of Ag into vg
@@ -61,8 +62,9 @@ int main(){
     VectorXi x_eigen = VectorXi::Ones(9);
     //Compute y 
     VectorXi y = Lg * x_eigen;
+    VectorXd y_d = y.cast<double>();
     out << "----------------------------------------------" << "\n";
-    out << "Task 2: Euclidean norm of y: ||y||_2 = " << y.norm() << "\n";
+    out << "Task 2: Euclidean norm of y: ||y||_2 = " << y_d.norm() << "\n";
     //check simmetry of Lg
     bool LgSymmetric = false;
     if(Lg==Lg.transpose()){
@@ -113,9 +115,10 @@ int main(){
     // Load the matrix from the file
     string filename = "../data/social.mtx";
     loadMarket(As, filename);
+    MatrixXd As_d = As.cast<double>();
     //Compute the Frobenius norm of As
     out << "----------------------------------------------" << "\n";
-    out << "Task 5: Frobenius norm of As: ||As||_F = " << As.norm() << "\n";
+    out << "Task 5: Frobenius norm of As: ||As||_F = " << As_d.norm() << "\n";
     
     //Create the vector vs containing the sum of each row of As
     VectorXi vs = VectorXi::Zero(As.rows());
