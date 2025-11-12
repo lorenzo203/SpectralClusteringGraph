@@ -49,7 +49,7 @@ SpectralClusteringGraph/
 │   ├── challenge2.cpp
 │   └── task10_11.cpp
 ├── matrices/                  # generated (gitignored), the generated matrices in .mtx format will be saved here
-└──reports/
+└── reports/
     └── challenge2_report.txt  # the complete report including all the relevant program's outputs
 ```
 
