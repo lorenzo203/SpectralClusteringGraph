@@ -1,12 +1,14 @@
 # Description
-This repository includes a project of Numerical Linear Algebra, whose goal is to evaluate the *Algebraic Connectivity* of a graph and perform a *Spectral Clustering* using the **Fiedler Vector** for the **Laplacian** associated to the **Adjacency Matrix** of the Graph.
+This repository includes a project of Numerical Linear Algebra, whose goal is to evaluate the **Algebraic Connectivity** of a graph and perform a **Spectral Clustering** using the **Fiedler Vector** for the **Laplacian** associated to the **Adjacency Matrix** of the Graph.
+<img width="1071" height="382" alt="spectralclustering" src="https://github.com/user-attachments/assets/061fab2f-ad08-40ca-b997-5da54f0d240d" />
+[Image source:https://bigdata.oden.utexas.edu/project/graph-clustering/]
 
 The project implements a complete pipeline for spectral clustering on a social‑network graph (351 nodes) using:
-- Eigen (dense/sparse linear algebra), used to perform any operation associated to Linear Algebra objects
-- LIS (Library of Iterative Solvers), used to implement iterative solvers and iterative eigenvalue computations
+- [Eigen](https://libeigen.gitlab.io/) (dense/sparse linear algebra), used to perform any operation associated to Linear Algebra objects
+- [LIS](https://www.ssisc.org/lis/index.en.html) (Library of Iterative Solvers), used to implement iterative solvers and iterative eigenvalue computations
 - Automated build/run via Makefile with consolidated report
   
-Take a quick look on [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering)
+Take a quick look on [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering) and [Algebraic Connectivity](https://en.wikipedia.org/wiki/Algebraic_connectivity).
 
 ## System requirements
 - Linux x86_64 (tested on Ubuntu/Debian‑like systems)
@@ -46,9 +48,9 @@ SpectralClusteringGraph/
 ├── src/
 │   ├── challenge2.cpp
 │   └── task10_11.cpp
-├── matrices/                  # generated (gitignored)
+├── matrices/                  # generated (gitignored), the generated matrices in .mtx format will be saved here
 └──reports/
-    └── challenge2_report.txt
+    └── challenge2_report.txt  # the complete report including all the relevant program's outputs
 ```
 
 ## Configuration
