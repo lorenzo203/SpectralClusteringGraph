@@ -1,7 +1,9 @@
-# Numerical Linear Algebra project: Spectral Clustering on a Social Graph using Eigen and LIS
-This project implements a complete pipeline for two‑way spectral clustering on a social‑network graph (351 nodes) using:
-- Eigen (dense/sparse linear algebra)
-- LIS (Library of Iterative Solvers)
+# Description
+This repository includes a project of Numerical Linear Algebra, whose goal is to evaluate the *Algebraic Connectivity* of a graph and perform a *Spectral Clustering* using the **Fiedler Vector** for the **Laplacian** associated to the **Adjacency Matrix** of the Graph.
+
+The project implements a complete pipeline for spectral clustering on a social‑network graph (351 nodes) using:
+- Eigen (dense/sparse linear algebra), used to perform any operation associated to Linear Algebra objects
+- LIS (Library of Iterative Solvers), used to implement iterative solvers and iterative eigenvalue computations
 - Automated build/run via Makefile with consolidated report
   
 Take a quick look on [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering)
@@ -28,7 +30,7 @@ make clean         # remove build artifacts and generated outputs
 ```
 
 ## What the pipeline does
-- Builds symmetric adjacency As and Laplacian Ls (Matrix Market .mtx)
+- Builds symmetric adjacency As and Laplacian Ls (stores them in Matrix Market format .mtx)
 - Runs LIS eigensolvers via mpirun:
   - Power Iteration (with/without shift)
   - Subspace Iteration for the smallest eigenpairs
@@ -45,9 +47,8 @@ SpectralClusteringGraph/
 │   ├── challenge2.cpp
 │   └── task10_11.cpp
 ├── matrices/                  # generated (gitignored)
-├── reports/
-│   └── challenge2_report.txt
-└── lis-2.1.10/                # LIS source (built automatically)
+└──reports/
+    └── challenge2_report.txt
 ```
 
 ## Configuration

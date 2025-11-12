@@ -15,6 +15,8 @@ CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -I$(mkEigenInc)
 # LIS configuration (already in repo)
 LIS_VERSION := 2.1.10
 LIS_DIR := lis-$(LIS_VERSION)
+LIS_ARCHIVE := lis-$(LIS_VERSION).zip
+LIS_URL := https://www.ssisc.org/lis/dl/lis-$(LIS_VERSION).zip
 mkLisInc := $(LIS_DIR)/include
 mkLisLib := $(LIS_DIR)/lib
 LIS_TEST_DIR := $(LIS_DIR)/test
@@ -54,17 +56,45 @@ dirs:
 install-lis: $(mkLisLib)/liblis.a
 
 $(mkLisLib)/liblis.a:
-	@if [ ! -f $(LIS_DIR)/include/Makefile.in ]; then \
-		echo "==> Extracting fresh LIS source..."; \
-		rm -rf $(LIS_DIR); \
-		tar -xzf lis-$(LIS_VERSION).tar.gz; \
+	@if [ ! -d $(LIS_DIR) ]; then \
+		if [ ! -f $(LIS_ARCHIVE) ]; then \
+			echo "==> Downloading LIS $(LIS_VERSION) from official site..."; \
+			curl -L -f -o $(LIS_ARCHIVE) $(LIS_URL) || \
+			wget --no-check-certificate -O $(LIS_ARCHIVE) $(LIS_URL) || \
+			(rm -f $(LIS_ARCHIVE); \
+			 echo ""; \
+			 echo "========================================"; \
+			 echo "ERROR: Could not download LIS"; \
+			 echo "========================================"; \
+			 echo ""; \
+			 echo "Please download manually:"; \
+			 echo "  1. Download: $(LIS_URL)"; \
+			 echo "  2. Place $(LIS_ARCHIVE) in: $(PWD)"; \
+			 echo "  3. Run: make all"; \
+			 echo ""; \
+			 exit 1); \
+			echo "==> Download successful"; \
+		else \
+			echo "==> Found existing $(LIS_ARCHIVE)"; \
+		fi; \
+		echo "==> Extracting LIS source..."; \
+		unzip -q $(LIS_ARCHIVE) || \
+		(echo "ERROR: Failed to extract $(LIS_ARCHIVE). File may be corrupted."; \
+		 echo "Run 'rm $(LIS_ARCHIVE)' and try again."; \
+		 exit 1); \
+	else \
+		echo "==> LIS directory already exists"; \
 	fi
-	@echo "==> Configuring and building LIS..."
-	cd $(LIS_DIR) && ./configure --prefix=$(PWD)/$(LIS_DIR)
-	$(MAKE) -C $(LIS_DIR)/src all
-	@mkdir -p $(mkLisLib)
-	@cp $(LIS_DIR)/src/.libs/liblis.a $(mkLisLib)/
-	@echo "==> LIS library built successfully"
+	@if [ ! -f $(mkLisLib)/liblis.a ]; then \
+		echo "==> Configuring and building LIS..."; \
+		cd $(LIS_DIR) && ./configure --prefix=$(PWD)/$(LIS_DIR) && \
+		$(MAKE) -C src all && \
+		mkdir -p lib && \
+		cp src/.libs/liblis.a lib/ && \
+		echo "==> LIS library built successfully"; \
+	else \
+		echo "==> LIS library already built"; \
+	fi
 
 # Compile challenge2
 $(TARGET): $(OBJ) | $(mkLisLib)/liblis.a
@@ -125,6 +155,10 @@ clean:
 	rm -rf $(MATRICES_DIR)
 	@echo "Build artifacts cleaned (LIS library preserved)"
 
+distclean: clean
+	rm -rf $(LIS_DIR) $(LIS_ARCHIVE)
+	@echo "All artifacts including LIS cleaned"
+
 help:
 	@echo "Makefile for SpectralClusteringGraph with LIS"
 	@echo ""
@@ -132,6 +166,7 @@ help:
 	@echo "  make all              Build LIS (if needed), compile challenge2 and task10"
 	@echo "  make run              Execute full pipeline with LIS tests"
 	@echo "  make clean            Remove build artifacts (keep LIS)"
+	@echo "  make distclean        Remove everything including LIS"
 	@echo "  make mkEigenInc=DIR   Build with alternate Eigen path"
 	@echo ""
 	@echo "Directory structure:"
